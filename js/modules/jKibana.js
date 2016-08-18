@@ -1,4 +1,6 @@
-var jKibana = (function ($) {
+var jKibana = (function () {
+    
+    console.log('jKibana instantiated...');
     
     // Non production
     var ELASTIC_SEARCH_HOST = 'http://172.20.17.80:9200/';
@@ -58,11 +60,12 @@ var jKibana = (function ($) {
     /**
     * Search into elastic search
     *
-    * @param {String} queryString
+    * @param {String} queryStrng
     * @param {Object} date
-    * @return {Promise}
+    * @returns {Promise}
     */
     var search = function(queryString, date) {
+        console.log(['Searching...', 'Query String:\t' + queryString, 'Date:\t\t\t' + date].join('\n'));
         var url = createElasticUrl(date, createElasticQuery(queryString));
         
         var xhr = new XHR(url);
@@ -72,4 +75,4 @@ var jKibana = (function ($) {
     return {
         search: search
     }
-})(window.jQuery);
+})();

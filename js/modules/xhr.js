@@ -1,5 +1,7 @@
 var XHR = function (url) {
     
+    console.log('XHR instantiated...');
+    
     /**
     * @param {String} method
     * @param {String} url
