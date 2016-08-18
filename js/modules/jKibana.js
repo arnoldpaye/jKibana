@@ -55,17 +55,21 @@ var jKibana = (function ($) {
         return year + "." + month + "." + day;
     };
     
+    /**
+    * Search into elastic search
+    *
+    * @param {String} queryString
+    * @param {Object} date
+    * @return {Promise}
+    */
+    var search = function(queryString, date) {
+        var url = createElasticUrl(date, createElasticQuery(queryString));
+        
+        var xhr = new XHR(url);
+        return xhr.get;
+    };
     
-    // TODO: this section should be on app.js
-    var queryString = 'application:"ST7" AND environment:"qa1" AND type:"jsexception"';
-    // Dates
-    var today = new Date();
-    var url = createElasticUrl(today, createElasticQuery(queryString));
-    
-    var xhr = new XHR(url);
-    xhr.get.then(function(response) {
-        console.log(response.hits);
-    }, function (error) {
-        console.log(error);
-    });
+    return {
+        search: search
+    }
 })(window.jQuery);
