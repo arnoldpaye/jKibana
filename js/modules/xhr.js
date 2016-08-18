@@ -12,7 +12,7 @@ var XHR = function (url) {
             var request = new XMLHttpRequest();
             
             request.onload = function() {
-                console.log('onload');
+                //console.log('onload');
             };
             
             request.onerror = function() {
