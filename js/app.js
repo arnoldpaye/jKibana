@@ -1,7 +1,6 @@
-var queryString = 'application:"ST7" AND environment:"qa1" AND type:"jsexception"';
-
 $("#btnSearch").click(function(e) {
     $("#content").empty();
+    var queryString = $(".search").val().trim();
     var today = new Date();
     jKibana.search(queryString, today).then(function(response) {
         $("#content").append('<table id=\'exceptions\'>');
