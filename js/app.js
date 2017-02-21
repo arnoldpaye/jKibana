@@ -16,3 +16,8 @@ $("#btnSearch").click(function(e) {
         console.log(error);
     });
 });
+
+// Set search input value
+var query = "application:'ST7' AND environment: 'qa1' AND type: 'jsexception'";
+var search = document.getElementById('search');
+search.value = query;
