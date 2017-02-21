@@ -1,21 +1,20 @@
-$("#btnSearch").click(function(e) {
-    $("#content").empty();
-    var queryString = $(".search").val().trim();
+// Set event listener
+document.getElementById('btnSearch').addEventListener('click', onBtnSearchClick);
+
+function onBtnSearchClick (MouseEvent) {
+    var content = document.getElementById('content');
+    var queryString = document.getElementById('search').value.trim();
     var today = new Date();
     jKibana.search(queryString, today).then(function(response) {
-        $("#content").append('<table id=\'exceptions\'>');
-        $("#exceptions").append('<tr><th>ClassName</th><th>Message</th></tr>');
         var exceptions = response.hits.hits;
-        console.log("Exceptions", exceptions.length);
         for (var i = 0; i < exceptions.length; i++) {
             var error = JSON.parse(exceptions[i]["_source"]["message"])["Details"]["Error"];
-            $("#exceptions").append('<tr><td>' + error.ClassName + '</td><td>' + error.Message + '</td></tr>');
+            console.log('Error message: ' + error.Message);
         }
-        $("#content").append('</table>');
     }, function (error) {
-        console.log(error);
+        console.log("error", error);
     });
-});
+};
 
 // Set search input value
 var query = "application:'ST7' AND environment: 'qa1' AND type: 'jsexception'";
