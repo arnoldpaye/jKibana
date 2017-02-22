@@ -1,4 +1,4 @@
-var jKibana = (function () {
+var jKibana = (function (html) {
 
     console.log('jKibana instantiated...');
 
@@ -7,6 +7,8 @@ var jKibana = (function () {
 
     // Production
     var ELASTIC_SEARCH_PROD_HOST = 'http://172.20.4.130:9200/';
+
+    var eHtml = new EHtml();
 
     /**
     * Create elastic query.
@@ -86,6 +88,7 @@ var jKibana = (function () {
     };
 
     return {
-        search: search
+        search: search,
+        render: eHtml.render
     }
 })();

@@ -9,10 +9,10 @@ function onBtnSearchClick (MouseEvent) {
 
     jKibana.search(queryString, today, env).then(function(response) {
         var exceptions = response.hits.hits;
-        for (var i = 0; i < exceptions.length; i++) {
-            var error = JSON.parse(exceptions[i]["_source"]["message"])["Details"]["Error"];
-            console.log('Error message: ' + error.Message);
-        }
+        console.log('FOUND RECORDS: ' + exceptions.length);
+
+        // Render exceptions inside of div#content element
+        jKibana.render(exceptions, "content");
     }, function (error) {
         console.log("error", error);
     });
