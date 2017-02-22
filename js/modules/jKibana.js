@@ -1,10 +1,13 @@
 var jKibana = (function () {
-    
+
     console.log('jKibana instantiated...');
-    
+
     // Non production
-    var ELASTIC_SEARCH_HOST = 'http://172.20.17.80:9200/';
-    
+    var ELASTIC_SEARCH_NON_PROD_HOST = 'http://172.20.17.80:9200/';
+
+    // Production
+    var ELASTIC_SEARCH_PROD_HOST = 'http://172.20.4.130:9200/';
+
     /**
     * Create elastic query.
     *
@@ -29,17 +32,23 @@ var jKibana = (function () {
             "size": 500
         };
     };
-    
+
     /**
     * Create elastic url.
     * @param {Number/Timestamp} date
     * @param {Object} query
+    * @param {String} env
     * @returns {String}
     **/
-    var createElasticUrl = function(date, query) {
-        return ELASTIC_SEARCH_HOST + "logstash-" + formatDate(date) + "/_search?source=" + JSON.stringify(query);
+    var createElasticUrl = function(date, query, env) {
+        var url = "logstash-" + formatDate(date) + "/_search?source=" + JSON.stringify(query)
+        if (env == "prod") {
+            return ELASTIC_SEARCH_PROD_HOST + url;
+        } else {
+            return  ELASTIC_SEARCH_NON_PROD_HOST + url;
+        }
     };
-    
+
     /**
     * Given a date, returns a formatted string as: "YYYY.mm.dd",
     * for example: "2016.15.08"
@@ -56,22 +65,26 @@ var jKibana = (function () {
         if (day < 10) day = "0" + day;
         return year + "." + month + "." + day;
     };
-    
+
     /**
     * Search into elastic search
     *
     * @param {String} queryStrng
     * @param {Object} date
+    * @param {String} env
     * @returns {Promise}
     */
-    var search = function(queryString, date) {
-        console.log(['Searching...', 'Query String:\t' + queryString, 'Date:\t\t\t' + date].join('\n'));
-        var url = createElasticUrl(date, createElasticQuery(queryString));
-        
+    var search = function(queryString, date, env) {
+        console.log(['Searching...',
+            'Query String:\t' + queryString,
+            'Date:\t\t\t' + date,
+            'Environment:\t' + env].join('\n'));
+        var url = createElasticUrl(date, createElasticQuery(queryString), env);
+
         var xhr = new XHR(url);
         return xhr.get;
     };
-    
+
     return {
         search: search
     }
